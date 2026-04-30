@@ -1,0 +1,19 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Test / tooling caches
+.pytest_cache/
+.coverage
+
+# 默认输出目录
+out/
+
+.claude/
