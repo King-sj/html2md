@@ -27,6 +27,9 @@ def test_extract_metadata():
     assert article.publish_date == date(2026, 4, 30)
     assert "aiops" in article.tags
     assert article.content_root is not None
+    # 摘要被独立提取，不在正文里
+    assert article.description and "AI 对程序员的深层冲击" in article.description
+    assert "AI 对程序员的深层冲击" not in article.content_root.get_text()
 
 
 def test_convert_to_markdown():
@@ -54,3 +57,6 @@ def test_front_matter_for_vuepress():
     assert "- 转载" in head
     assert "- aiops" in head
     assert "- 大模型" in head
+    # description 字段写入了 front matter
+    assert "description:" in head
+    assert "AI 对程序员的深层冲击" in head

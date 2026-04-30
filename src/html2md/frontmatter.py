@@ -23,6 +23,8 @@ def render(article: Article, *, default_category: str = "转载", extra_tags: li
         fm["tag"] = tags
     if article.author:
         fm["author"] = article.author
+    if article.description:
+        fm["description"] = article.description
     fm["original_url"] = article.url
 
     body = yaml.safe_dump(fm, allow_unicode=True, sort_keys=False).strip()

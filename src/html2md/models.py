@@ -13,3 +13,4 @@ class Article:
     author: str | None = None
     publish_date: date | None = None
     tags: list[str] = field(default_factory=list)
+    description: str | None = None

@@ -39,9 +39,14 @@ class CnblogsExtractor:
             (soup.title.string or "").strip() if soup.title and soup.title.string else "untitled"
         )
 
-        body = soup.select_one("#cnblogs_post_body, #post-body, .postBody, .blogpost-body")
+        # 严格只取正文，不要 .postBody（那是 description+body 的父容器）
+        body = soup.select_one("#cnblogs_post_body, #post-body, .blogpost-body")
         if not body:
             raise ValueError("cnblogs: 找不到正文容器（#cnblogs_post_body）")
+
+        # 摘要单独提取，存到 Article.description
+        desc_el = soup.select_one("#cnblogs_post_description")
+        description = desc_el.get_text(" ", strip=True) if desc_el else _meta(soup, "description")
 
         author = self._author(soup, url)
         publish_date = _parse_date(soup.select_one("#post-date") and soup.select_one("#post-date").get_text())
@@ -59,6 +64,7 @@ class CnblogsExtractor:
             tags=tags,
             content_root=body,
             site="cnblogs",
+            description=description,
         )
 
     @staticmethod
